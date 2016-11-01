@@ -1,0 +1,1 @@
+sbt "dist" && scp target/universal/wechat-backend-1.0.zip ubuntu@ec2-35-160-182-12.us-west-2.compute.amazonaws.com:/export/apps
