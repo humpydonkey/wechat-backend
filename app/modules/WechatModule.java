@@ -26,7 +26,7 @@ public class WechatModule extends AbstractModule {
     bind(WxMpService.class).toInstance(wxService);
 
     WxMpMessageRouter wxMpMessageRouter = new WxMpMessageRouter(wxService);
-
+    configureMessageRouter(wxMpMessageRouter);
     bind(WxMpMessageRouter.class).toInstance(wxMpMessageRouter);
   }
 
@@ -37,8 +37,7 @@ public class WechatModule extends AbstractModule {
   //  wxMpConfig.aesKey="UbHfGVroWBYypehZiyfQEJvB8zHVId52Z8xNBYIO1Gw"
 
   private void configureMessageRouter(WxMpMessageRouter router) {
-    router.rule().async(false).end();
-    router.rule().msgType(WxConsts.XML_MSG_VOICE).handler(new WxVoiceMsgHandler()).end();
-    router.rule().msgType(WxConsts.XML_MSG_TEXT).handler(new WxTextMsgHandler()).end();
+    router.rule().async(false).msgType(WxConsts.XML_MSG_VOICE).handler(new WxVoiceMsgHandler()).end();
+    router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).handler(new WxTextMsgHandler()).end();
   }
 }
