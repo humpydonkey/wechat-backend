@@ -18,6 +18,8 @@ public class WxTextMsgHandler implements WxMpMessageHandler {
     Preconditions.checkArgument(wxMessage.getMsgType().equals(WxConsts.XML_MSG_TEXT));
 
     return WxMpXmlOutMessage.TEXT()
+        .toUser(wxMessage.getFromUser())
+        .fromUser(wxMessage.getToUser())
         .content(wxMessage.getContent())
         .build();
   }

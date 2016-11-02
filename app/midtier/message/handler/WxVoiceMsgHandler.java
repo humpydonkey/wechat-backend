@@ -20,6 +20,8 @@ public class WxVoiceMsgHandler implements WxMpMessageHandler {
     Preconditions.checkArgument(wxMessage.getMsgType().equals(WxConsts.XML_MSG_VOICE));
 
     return WxMpXmlOutMessage.VOICE()
+        .toUser(wxMessage.getFromUser())
+        .fromUser(wxMessage.getToUser())
         .mediaId(wxMessage.getMediaId())
         .build();
   }
