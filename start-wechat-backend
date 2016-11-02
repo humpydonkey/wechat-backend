@@ -1,0 +1,10 @@
+server_dir="/export/apps/wechat-backend-1.0"
+
+if [ -e $server_dir/RUNNING_PID ]; then
+ echo "Removing RUNNING_PID file..."
+ rm $server_dir/RUNNING_PID
+fi
+
+echo "Starting service..."
+
+$server_dir/bin/wechat-backend -Dconfig.file=$server_dir/conf/application.conf -Dhttp.port=9000

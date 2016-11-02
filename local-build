@@ -1,0 +1,6 @@
+# Build wechat-backend locally
+echo "pulling source code..."
+git pull
+
+echo "packaging source code..."
+sbt dist

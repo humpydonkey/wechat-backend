@@ -1,0 +1,17 @@
+package_name="wechat-backend-1.0"
+server_dir="/export/apps"
+
+server_folder="$server_dir/$package_name"
+package_dir="target/universal/$package_name.zip"
+
+if [ -e $server_folder ]; then
+ echo "Removing server directory: $server_folder"
+ rm -r $server_folder
+fi
+
+mv $package_dir $server_dir
+
+echo "Unzipping $server_dir/$package_name"
+unzip $server_dir/$package_name.zip -d $server_dir
+
+./start-wechat-backend
