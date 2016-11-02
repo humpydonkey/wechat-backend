@@ -45,7 +45,7 @@ public class MessageController extends Controller {
     WxMpXmlMessage message = WxMpXmlMessage.fromXml(toString(dom));
     log.debug("Received msg: {}", message);
 
-    WxMpXmlOutMessage outMessage = WxMpXmlOutMessage.TEXT().fromUser(message.getToUser()).toUser(message.getFromUser()).content("我收到了你的消息: " + message.getContent()).build();
+    WxMpXmlOutMessage outMessage = messageRouter.route(message);
     String result = outMessage.toXml();
     log.info("Replying: \n{}", result);
     return ok(result);

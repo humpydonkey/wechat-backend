@@ -1,15 +1,14 @@
 package modules;
 
-import com.google.inject.name.Names;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import midtier.message.handler.WxTextMsgHandler;
+import midtier.message.handler.WxVoiceMsgHandler;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 public class WechatModule extends AbstractModule {
 
@@ -27,7 +26,7 @@ public class WechatModule extends AbstractModule {
     bind(WxMpService.class).toInstance(wxService);
 
     WxMpMessageRouter wxMpMessageRouter = new WxMpMessageRouter(wxService);
-    wxMpMessageRouter.rule().async(false).end();
+
     bind(WxMpMessageRouter.class).toInstance(wxMpMessageRouter);
   }
 
@@ -36,4 +35,10 @@ public class WechatModule extends AbstractModule {
   //  wxMpConfig.secret="f18031cc1477e757d7badf126fcc2881"
   //  wxMpConfig.token="happybirthday"
   //  wxMpConfig.aesKey="UbHfGVroWBYypehZiyfQEJvB8zHVId52Z8xNBYIO1Gw"
+
+  private void configureMessageRouter(WxMpMessageRouter router) {
+    router.rule().async(false).end();
+    router.rule().msgType(WxConsts.XML_MSG_VOICE).handler(new WxVoiceMsgHandler()).end();
+    router.rule().msgType(WxConsts.XML_MSG_TEXT).handler(new WxTextMsgHandler()).end();
+  }
 }
