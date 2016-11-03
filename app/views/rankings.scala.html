@@ -1,0 +1,30 @@
+@import controllers.message.RankingController.UserScore
+
+@(userScoreList: List[UserScore])
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>祝福语排行</title>
+    <meta name="author" content="Asia Cao">
+
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <h1>祝福语排行榜</h1>
+    <div>
+      <ol>
+        @for(userScore <- userScoreList) {
+          <li>@userScore.username : @userScore.score 分</li>
+        }
+      </ol>
+    </div>
+  </body>
+
+</html>

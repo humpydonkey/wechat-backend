@@ -19,3 +19,5 @@ GET     /create-menu                controllers.menu.CustomMenuController.create
 POST    /message                    controllers.message.MessageController.create()
 # used to verify /message api
 GET     /message                    controllers.auth.AuthController.verifySignature(signature : String ?= null, timestamp : String ?= null, nonce : String ?= null, echostr : String ?= null)
+
+GET     /rankings                   controllers.message.RankingController.rankings()

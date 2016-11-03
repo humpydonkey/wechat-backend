@@ -1,95 +1,92 @@
 package data;
 
-import java.util.Iterator;
-import java.util.List;
+import static com.google.common.base.Preconditions.checkArgument;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.bson.types.ObjectId;
 import org.mongojack.DBCursor;
-import org.mongojack.DBProjection;
-import org.mongojack.DBQuery.Query;
-import org.mongojack.DBUpdate.Builder;
+import org.mongojack.DBQuery;
+import org.mongojack.DBUpdate;
 import org.mongojack.JacksonDBCollection;
 import org.mongojack.WriteResult;
 
 import com.mongodb.DB;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
+import com.mongodb.DBCollection;
 
 import data.model.Model;
 
 public class BaseDao<T extends Model<K>, K> {
-  private static final String DB_NAME = "wechat-backend";
-  private static final MongoClient mongoClient = new MongoClient("localhost", 27017);
-
-  @SuppressWarnings("deprecated") private static final DB db = mongoClient.getDB(DB_NAME);
 
   protected final JacksonDBCollection<T, K> coll;
 
-  public BaseDao(String collectionName, Class<T> classType, Class<K> keyType) {
-    coll = JacksonDBCollection.wrap(db.getCollection(collectionName), classType, keyType);
+  public BaseDao(DBCollection mongoColl, Class<T> clazz, Class<K> idClazz) {
+    coll = JacksonDBCollection.wrap(mongoColl, clazz, idClazz);
   }
 
-  public T findOne() {
-    Iterator<T> iter = coll.find().iterator();
-    return iter.hasNext() ? iter.next() : null;
+  public BaseDao(DB db, String collName, Class<T> clazz, Class<K> idClazz) {
+    coll = JacksonDBCollection.wrap(db.getCollection(collName), clazz, idClazz);
   }
 
-  public DBCursor<T> find(Query query) {
-    return coll.find(query);
+  public void insert(T doc) {
+    coll.insert(doc);
   }
 
-  public DBCursor<T> find(Query query, String[] requiredFields) {
-    return coll.find(DBProjection.include(requiredFields));
-  }
-
-  public T findById(K id) {
-    return coll.findOneById(id);
+  public void insertMany(List<T> docs) {
+    coll.insert(docs);
   }
 
   public long count() {
     return coll.count();
   }
 
-  public long count(Query query) {
-    return coll.getCount(query);
+  public T findOne() {
+    return coll.find().iterator().next();
   }
 
-  public long count(Query query, DBObject fields) {
-    return coll.getCount(query, fields);
+  public DBCursor<T> find() {
+    return coll.find();
   }
 
-  public WriteResult<T, K> insert(List<T> list) {
-    return coll.insert(list);
+  public DBCursor<T> find(DBQuery.Query query) {
+    return coll.find(query);
   }
 
-  public WriteResult<T, K> insert(T t) {
-    return coll.insert(t);
+  public T findById(K id) {
+    return coll.findOneById(id);
   }
 
-  public WriteResult<T, K> save(T t) {
-    return coll.save(t);
+  public DBCursor<T> findByIds(Set<ObjectId> ids) {
+    return coll.find(DBQuery.in("_id", ids));
   }
 
-  public WriteResult<T, K> update(Query query, T object) {
-    return coll.update(query, object);
+  public DBCursor<T> findByIds(Set<ObjectId> ids, DBQuery.Query query) {
+    return coll.find(DBQuery.and(DBQuery.in("_id", ids), query));
   }
 
-  public WriteResult<T, K> update(K id, T object) {
-    return coll.updateById(id, object);
-  }
-
-  public WriteResult<T, K> update(K id, Builder update) {
-    return coll.updateById(id, update);
-  }
-
-  public WriteResult<T, K> updateMulti(Query query, Builder update) {
-    return coll.updateMulti(query, update);
-  }
-
-  public WriteResult<T, K> removeById(K id) {
+  public WriteResult<T, K> deleteById(K id) {
     return coll.removeById(id);
   }
 
-  public WriteResult<T, K> remove(Query query) {
+  public WriteResult<T, K> deleteOne(DBQuery.Query query) {
     return coll.remove(query);
+  }
+
+  public WriteResult deleteMany(DBQuery.Query query) {
+    return coll.remove(query);
+  }
+
+  public void updateById(K id, Map<String, ?> fields) {
+    checkArgument(!fields.isEmpty());
+    for (String field : fields.keySet()) {
+      checkArgument(!StringUtils.isBlank(field));
+    }
+
+    DBUpdate.Builder update = new DBUpdate.Builder();
+    fields.forEach(update::set);
+    coll.updateById(id, update);
   }
 }

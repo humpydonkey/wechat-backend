@@ -13,6 +13,8 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core"    % "jackson-databind"          % "2.5.3",
   "com.google.guava"              % "guava"                     % "19.0",
   "com.google.inject"             % "guice"                     % "4.0",
+  "org.apache.commons"            % "commons-math3"             % "3.4.1",
+  "org.apache.commons"            % "commons-lang3"             % "3.3.2",
   "org.mongodb"                   % "mongodb-driver"            % "3.2.1",
   "org.mongojack"                 % "mongojack"                 % "2.6.1"
     // Upgrading jackson-databind causes various compile and test failures, and appears unnecessary:
