@@ -10,6 +10,8 @@ import midtier.message.handler.WxVoiceMsgHandler;
 
 import com.google.inject.AbstractModule;
 
+import java.io.File;
+
 public class WechatModule extends AbstractModule {
 
   @Override
@@ -19,6 +21,7 @@ public class WechatModule extends AbstractModule {
     config.setSecret("f18031cc1477e757d7badf126fcc2881"); // app corpSecret
     config.setToken("happybirthday");
     config.setAesKey("UbHfGVroWBYypehZiyfQEJvB8zHVId52Z8xNBYIO1Gw"); // EncodingAESKey
+    config.setTmpDirFile(new File("/export/apps/download/"));
 
     WxMpService wxService = new WxMpServiceImpl();
     wxService.setWxMpConfigStorage(config);
