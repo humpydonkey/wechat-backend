@@ -1,13 +1,11 @@
 package midtier.message.handler;
 
-import java.io.File;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.mp.api.WxMpMaterialService;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
@@ -24,14 +22,15 @@ public class WxVoiceMsgHandler implements WxMpMessageHandler {
     Preconditions.checkArgument(wxMessage.getMsgType().equals(WxConsts.XML_MSG_VOICE));
     log.info("MediaId:{}", wxMessage.getMediaId());
 
-    WxMpMaterialService materialService = wxMpService.getMaterialService();
-    File file = materialService.mediaDownload(wxMessage.getMediaId());
-    log.info("Download to: {}", file.getAbsolutePath());
+//    WxMpMaterialService materialService = wxMpService.getMaterialService();
+//    File file = materialService.mediaDownload(wxMessage.getMediaId());
+//    log.info("Download to: {}", file.getAbsolutePath());
 
-    return WxMpXmlOutMessage.VOICE()
+    return WxMpXmlOutMessage.TEXT()
         .toUser(wxMessage.getFromUser())
         .fromUser(wxMessage.getToUser())
-        .mediaId(wxMessage.getMediaId())
+        .content(wxMessage.getRecognition())
+//        .mediaId(wxMessage.getMediaId())
         .build();
   }
 }

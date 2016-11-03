@@ -1,0 +1,2 @@
+curl -H "Content-Type: application/xml" -X POST -d '<?xml version="1.0" encoding="UTF-8" standalone="no"?><xml><ToUserName><![CDATA[gh_94170a0efcd6]]></ToUserName><FromUserName><![CDATA[od7skwJyONajC54Y1DLAtTpDiOGU]]></FromUserName><CreateTime>1478146376</CreateTime><MsgType><![CDATA[voice]]></MsgType><MediaId><![CDATA[qv4Vn638C-nXsvgDlErqE7S9OrRioAQ-pt_kTrG1MT1aW2Q4adNO1XESBylHfqrm]]></MediaId><Format><![CDATA[amr]]></Format><MsgId>6348590344083614225</MsgId><Recognition/></xml>' http://localhost:9000/message
+
