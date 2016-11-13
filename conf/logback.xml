@@ -53,5 +53,8 @@
     <logger name="play" level="INFO" />
     <logger name="application" level="INFO" />
     <logger name="controllers" level="INFO" />
+    <logger name="data" level="DEBUG" />
+    <logger name="midtier" level="DEBUG" />
+    <logger name="modules" level="DEBUG" />
 
 </configuration>

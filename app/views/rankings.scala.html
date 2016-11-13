@@ -1,6 +1,7 @@
-@import controllers.message.RankingController.UserScore
+@import data.model.User
 
-@(userScoreList: List[UserScore])
+@import data.model.User.ScoredSentence
+@(userScoreList: List[ScoredSentence])
 
 <!doctype html>
 
@@ -20,8 +21,8 @@
     <h1>祝福语排行榜</h1>
     <div>
       <ol>
-        @for(userScore <- userScoreList) {
-          <li>@userScore.username : @userScore.score 分</li>
+        @for(statement <- userScoreList) {
+          <li>@statement.raw : @statement.score 分</li>
         }
       </ol>
     </div>

@@ -21,7 +21,8 @@ libraryDependencies ++= Seq(
     exclude("com.fasterxml.jackson.core", "jackson-databind"),
   "org.projectlombok"             % "lombok"                    % "1.16.8",// https://mvnrepository.com/artifact/com.github.binarywang/weixin-java-common
   "com.github.binarywang"         % "weixin-java-mp"            % "2.2.3",
-  "com.github.binarywang"         % "weixin-java-common"        % "2.2.3"
+  "com.github.binarywang"         % "weixin-java-common"        % "2.2.3",
+  "org.apdplat"                   % "word"                      % "1.3"
 )
 
 sources in (Compile, doc) := Seq.empty
@@ -31,3 +32,4 @@ publishArtifact in (Compile, packageDoc) := false
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
+

@@ -20,7 +20,6 @@ public class WxVoiceMsgHandler implements WxMpMessageHandler {
   public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager)
       throws WxErrorException {
     Preconditions.checkArgument(wxMessage.getMsgType().equals(WxConsts.XML_MSG_VOICE));
-    log.info("MediaId:{}", wxMessage.getMediaId());
 
 //    WxMpMaterialService materialService = wxMpService.getMaterialService();
 //    File file = materialService.mediaDownload(wxMessage.getMediaId());
@@ -29,7 +28,7 @@ public class WxVoiceMsgHandler implements WxMpMessageHandler {
     return WxMpXmlOutMessage.TEXT()
         .toUser(wxMessage.getFromUser())
         .fromUser(wxMessage.getToUser())
-        .content(wxMessage.getRecognition())
+        .content(wxMessage.getContent())
 //        .mediaId(wxMessage.getMediaId())
         .build();
   }

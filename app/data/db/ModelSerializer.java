@@ -51,6 +51,7 @@ import data.model.Model;
 /**
  * Serializes and deserializes to/from JSON.
  */
+@SuppressWarnings("deprecation")
 @Slf4j
 public class ModelSerializer {
 
@@ -108,6 +109,7 @@ public class ModelSerializer {
   private static final ObjectMapper JSON_MAPPER;
 
   public static final ObjectMapper MONGO_MAPPER;
+
   static {
     // Create a custom Mongo BSON mapper
     MONGO_MAPPER = new ObjectMapper();

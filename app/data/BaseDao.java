@@ -67,6 +67,10 @@ public class BaseDao<T extends Model<K>, K> {
     return coll.find(DBQuery.and(DBQuery.in("_id", ids), query));
   }
 
+  public T poll(DBQuery.Query query) {
+    return coll.findAndRemove(query);
+  }
+
   public WriteResult<T, K> deleteById(K id) {
     return coll.removeById(id);
   }

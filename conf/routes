@@ -17,7 +17,13 @@ GET     /create-menu                controllers.menu.CustomMenuController.create
 
 # message
 POST    /message                    controllers.message.MessageController.create()
+GET     /rankings                   controllers.message.RankingController.rankings()
+GET     /segment                    controllers.message.MessageController.segment(raw : String ?= null)
+GET     /add                        controllers.message.MessageController.addSentence(wxUserId : String ?= null, userName : String ?= null, sentence : String ?= null)
+
+#data bootstrap
+GET     /init-dict                  controllers.DataBootstrapController.initializeDictionary(dictType: String ?= null)
+GET     /init-all-dicts             controllers.DataBootstrapController.initializeAllDictionaries()
 # used to verify /message api
 GET     /message                    controllers.auth.AuthController.verifySignature(signature : String ?= null, timestamp : String ?= null, nonce : String ?= null, echostr : String ?= null)
 
-GET     /rankings                   controllers.message.RankingController.rankings()
