@@ -47,7 +47,7 @@ public class MsgProcessor {
 
     String returnContent = "Hi " + user.getName() + ", "
         + String.format(MsgConstants.RESPONSE_MSG_SCORED, content, scoredSentence.getScore())
-        + "\n\n" + getLatestScoreBoardMsgString();
+        + "\n\n" + MsgConstants.RESPONSE_GAME_RULE;
     message.setContent(returnContent);
   }
 
@@ -96,7 +96,7 @@ public class MsgProcessor {
 
   private String extractName(String userNameKeyValuePair) {
     // 姓名:XXX or 姓名 XXX
-    int splitIdx = userNameKeyValuePair.indexOf(':');
+    int splitIdx = userNameKeyValuePair.indexOf('：');
     if (splitIdx < 0) {
       splitIdx = userNameKeyValuePair.indexOf(' ');
     }
