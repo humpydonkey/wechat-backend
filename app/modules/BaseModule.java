@@ -49,7 +49,8 @@ public class BaseModule extends AbstractModule {
 
       @Override
       public String getIP() {
-        return "localhost";
+        return "35.160.182.12";
+//        return "localhost";
       }
 
       @Override
