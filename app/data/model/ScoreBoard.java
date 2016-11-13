@@ -33,14 +33,8 @@ public class ScoreBoard {
     HashSet<UserScoredSentence> rankings = new HashSet<>();
     DBCursor<User> users = userDao.find();
     StreamSupport.stream(users.spliterator(), false)
-        .flatMap(user -> user.getScoredSentences().stream().map(sentence -> {
-          log.debug("Find sentence {} for user {}", sentence, user.getId());
-          return new UserScoredSentence(user, sentence);
-        }))
-        .forEach(record -> {
-          log.debug("Hash for {}: {}", record.getScoredSentence().getRaw(), record.hashCode());
-          rankings.add(record);
-        });
+        .flatMap(user -> user.getScoredSentences().stream().map(sentence -> new UserScoredSentence(user, sentence)))
+        .forEach(rankings::add);
 
     log.info("Find {} ScoreRecords", rankings.size());
     return rankings;

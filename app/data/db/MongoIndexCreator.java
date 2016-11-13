@@ -24,7 +24,6 @@ public class MongoIndexCreator {
   public void createIndexes() {
     // Person-specific indexes for deduplication / PPM
     createUniqueIndex(User.Dao.COLLECTION_NAME, "wxUser");
-    createUniqueIndex(User.Dao.COLLECTION_NAME, "name");
   }
 
   private static BasicDBObject indexFields(String[] fieldNames) {

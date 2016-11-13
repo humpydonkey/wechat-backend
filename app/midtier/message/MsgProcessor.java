@@ -4,17 +4,23 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import midtier.Scorer;
 import data.model.GeneratedName;
 import data.model.ScoreBoard;
 import data.model.User;
+import org.joda.time.DateTime;
 
 /**
  * Decide how to process the message
  */
+@Slf4j
 public class MsgProcessor {
+
+  private static final int GAME_END_HOUR_OF_DAY = 5;
+  private static final int MAX_MSG_LENGTH = 100;
 
   @Inject private User.Dao userDao;
   @Inject private GeneratedName.Dao nameDao;
@@ -23,7 +29,15 @@ public class MsgProcessor {
   public void processMsgContent(WxMpXmlMessage message) {
     String content = getContent(message);
     String wxUserId = message.getFromUser();
-    if (content.startsWith(MsgConstants.REQUEST_NAME)) {
+
+    log.debug("Current currentOfDay: {}", DateTime.now().getHourOfDay());
+    if (DateTime.now().getHourOfDay() >= GAME_END_HOUR_OF_DAY) {
+      message.setContent(MsgConstants.RESPONSE_GAME_END);
+      return;
+    } else if (content.length() > MAX_MSG_LENGTH){
+      message.setContent(MsgConstants.RESPONSE_ERROR_MSG_TOO_LONG);
+      return;
+    } else if (content.startsWith(MsgConstants.REQUEST_NAME)) {
       String returnContent = setNewUserName(wxUserId, message.getContent());
       message.setContent(returnContent);
       return;
